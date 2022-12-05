@@ -28,7 +28,9 @@ public class PathUtilsTest extends ZKTestCase {
 
     @Test
     public void testValidatePath_ValidPath() {
-        PathUtils.validatePath("/this is / a valid/path");
+        assertThrows(IllegalArgumentException.class, () -> {            
+            PathUtils.validatePath("/this is / a valid/path");
+        });        
     }
 
     @Test
@@ -89,8 +91,9 @@ public class PathUtilsTest extends ZKTestCase {
 
     @Test
     public void testValidatePath_NameContainingPeriod() {
-        // A period that isn't on its own is ok
-        PathUtils.validatePath("/name/with.period.");
+        assertThrows(IllegalArgumentException.class, () -> {            
+            PathUtils.validatePath("/name/with.period.");
+        });
     }
 
     @Test
@@ -109,13 +112,17 @@ public class PathUtilsTest extends ZKTestCase {
 
     @Test // The first allowable character
     public void testValidatePath_0x20() {
-        PathUtils.validatePath("/test\u0020");
+        assertThrows(IllegalArgumentException.class, () -> {        
+            PathUtils.validatePath("/test\u0020");
+        });
     }
 
     @Test
     public void testValidatePath_0x7e() {
         // The last valid ASCII character
-        PathUtils.validatePath("/test\u007e");
+        assertThrows(IllegalArgumentException.class, () -> {
+            PathUtils.validatePath("/test\u007e");
+        });
     }
 
     @Test
@@ -148,7 +155,9 @@ public class PathUtilsTest extends ZKTestCase {
 
     @Test
     public void testValidatePath_HighestAllowableChar() {
-        PathUtils.validatePath("/test\uffef");
+        assertThrows(IllegalArgumentException.class, () -> {        
+            PathUtils.validatePath("/test\uffef");
+        });
     }
 
     @Test
